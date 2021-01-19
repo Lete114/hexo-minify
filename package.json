@@ -1,0 +1,33 @@
+{
+  "name": "hexo-minify",
+  "version": "1.0.0",
+  "description": "Hexo resources compress HTML,CSS,JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lete114/hexo-minify.git"
+  },
+  "keywords": [
+    "compress",
+    "hexo",
+    "minify",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "JS"
+  ],
+  "author": "Lete114",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lete114/hexo-minify/issues"
+  },
+  "homepage": "https://github.com/lete114/hexo-minify#readme",
+  "dependencies": {
+    "clean-css": "^4.2.3",
+    "html-minifier": "^4.0.0",
+    "uglify-js": "^3.12.4"
+  }
+}
