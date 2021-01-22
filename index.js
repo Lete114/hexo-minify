@@ -31,14 +31,22 @@ hexo.extend.filter.register('after_render:css', function(str, data){
 });
 
 hexo.extend.filter.register('after_render:html', function(str, data){
-  if(config.minify.html==true||config.minify.html==null){
-    var result = minifyHTML(str,{
-      removeComments: true,
-      collapseWhitespace: true,
-      minifyJS:true, 
-      minifyCSS:true
-    });
-    return result;
+  try {
+    if(config.minify.html==true||config.minify.html==null){
+      var result = minifyHTML(str,{
+        removeComments: true,
+        collapseWhitespace: true,
+        minifyJS:true, 
+        minifyCSS:true
+      });
+      return result;
+    }
+    return str;
+  } catch(error) {
+    console.log('\x1B[31m%s\x1B[0m','出现异常，压缩失败！');
+    console.log('\x1B[31m%s\x1B[0m','请规范你的MarkDown语法！');
+    console.log('\x1B[33m%s\x1B[0m','检查是否是“"”的问题，错误如下！');
+    console.log(error);
+    return str;
   }
-  return str;
 });
