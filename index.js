@@ -5,18 +5,34 @@
  */
 "use strict";
 
-var UglifyJS = require("uglify-js");
-var CleanCSS = require("clean-css");
-var minifyHTML = require("html-minifier").minify;
+const path = require("path");
+const fs = require("fs");
+const UglifyJS = require("uglify-js");
+const CleanCSS = require("clean-css");
+const minifyHTML = require("html-minifier").minify;
+const { minify_image } = require("./lib/utils");
 
-var config = hexo.config;
+let config = hexo.config;
 if (!config.minify) {
   config.minify = {
     js: true,
     css: true,
     html: true,
+    image: {
+      enable: false,
+      quality: 0.5,
+      RegExp: null,
+    },
   };
 }
+
+hexo.on("deployBefore", () => {
+  if (!config.minify.image.enable) return;
+  const quality = config.minify.image.quality;
+  const RegExp = config.minify.image.RegExp;
+  var public_dir = path.resolve(process.cwd(), config.public_dir);
+  if (fs.existsSync(public_dir)) minify_image(public_dir, quality, RegExp);
+});
 
 hexo.extend.filter.register("after_render:js", (str, data) => {
   if (!config.minify.js) return str;
