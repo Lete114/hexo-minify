@@ -11,17 +11,16 @@ describe('hexo-minify', () => {
   const minifyJS = require('../lib/filter').minifyJS.bind(hexo)
   const minifyCSS = require('../lib/filter').minifyCSS.bind(hexo)
   const minifyHTML = require('../lib/filter').minifyHTML.bind(hexo)
-  hexo.config = JSON.parse(
-    JSON.stringify(
-      Object.assign(hexo.config, {
-        minify: {
-          js: true,
-          css: true,
-          html: true
-        }
-      })
-    )
-  )
+
+  const defaultConfig = {
+    minify: {
+      js: { enable: true, options: {} },
+      css: { enable: true, options: {} },
+      html: { enable: true, options: {} }
+    }
+  }
+
+  hexo.config = JSON.parse(JSON.stringify(Object.assign(hexo.config, defaultConfig)))
 
   describe('minifyJS', () => {
     const es5 = `
@@ -29,7 +28,10 @@ describe('hexo-minify', () => {
         name: 'lisi',
         age: 18,
         calc: function(a,b) {
-            return a + b;
+          return a + b;
+        },
+        merge: function(a,b) {
+          return a + b;
         }
     };
     console.log(obj.calc(1,2));`
@@ -40,6 +42,9 @@ describe('hexo-minify', () => {
         age: 18,
         calc(a,b) {
             return a + b;
+        },
+        merge(a,b) {
+          return a + b;
         }
     };
     console.log(obj.calc(1,2));`
@@ -54,6 +59,21 @@ describe('hexo-minify', () => {
       const result = await minifyJS(es6, { path: 'source/test.js' })
 
       result.should.eql(UglifyJS.minify(es6).code)
+    })
+
+    it('options - minify js', async () => {
+      // toplevel: Remove unused code
+
+      hexo.config.minify.js.options.toplevel = true
+
+      const options = hexo.config.minify.js.options
+
+      const result = await minifyJS(es6, { path: 'source/test.js' })
+      // result Output: console.log(3);
+
+      result.should.eql(UglifyJS.minify(es6, options).code)
+
+      delete hexo.config.minify.js.options.toplevel
     })
 
     it('after_render:js', async () => {
@@ -71,12 +91,43 @@ describe('hexo-minify', () => {
       text-decoration: none;
       color: #00c4b6;
       transition: all .5s;
+    }
+    h1 {
+      color: red;
+      font-size: 1px;
+    }
+    a {
+      color:red;
+      font-size: 2px;
     }`
 
     it('minify css', async () => {
       const result = await minifyCSS(body, { path: 'source/test.css' })
 
       result.should.eql(new CleanCSS({}).minify(body).styles)
+    })
+
+    it('options - minify css', async () => {
+      // keep-breaks: formats output the default way but adds line breaks for improved readability
+
+      hexo.config.minify.css.options.format = 'keep-breaks'
+
+      const options = hexo.config.minify.css.options
+
+      const result = await minifyCSS(body, { path: 'source/test.css' })
+
+      /*
+      result Output:
+
+      body a{text-decoration:none;color:#00c4b6;transition:all .5s}
+      h1{color:red;font-size:1px}
+      a{color:red;font-size:1px}
+
+       */
+
+      result.should.eql(new CleanCSS(options).minify(body).styles)
+
+      delete hexo.config.minify.css.options.format
     })
 
     it('after_render:css', async () => {
@@ -87,6 +138,7 @@ describe('hexo-minify', () => {
       result.should.eql(new CleanCSS({}).minify(body).styles)
     })
   })
+  
   describe('minifyHTML', () => {
     const html = `
     <div class="framework-info">
@@ -98,13 +150,16 @@ describe('hexo-minify', () => {
     </div>`
 
     const options = {
-      removeComments: true,
-      collapseWhitespace: true,
-      minifyJS: true,
-      minifyCSS: true
+      minifyJS: true, // js 压缩
+      minifyCSS: true, // css 压缩
+      removeComments: true, // 删除注释
+      collapseWhitespace: true, // 删除多余空白处
+      removeAttributeQuotes: true // 删除属性引号
     }
 
     it('minify html', async () => {
+      hexo.config.minify.html.options = options
+
       const result = await minifyHTML(html, { path: 'source/test.html' })
 
       result.should.eql(minifierHTML(html, options))
