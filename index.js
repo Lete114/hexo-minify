@@ -3,7 +3,7 @@
 /**
  * hexo-minify
  * author: Lete114
- * version: 1.1.0
+ * version: 1.2.0
  */
 
 const defaultConfig = {
@@ -17,6 +17,25 @@ const defaultConfig = {
       removeComments: true, // Remove the comments
       collapseWhitespace: true, // Delete any extra space
       removeAttributeQuotes: true // Delete attribute quotes
+    }
+  },
+  postcss: {
+    enable: true,
+    options: {
+      overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
+    }
+  },
+  babel: {
+    enable: true,
+    options: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: { browsers: ['> 1%', 'last 2 versions', 'not dead'] }
+          }
+        ]
+      ]
     }
   }
 }

@@ -5,7 +5,7 @@
 
 ## Hexo-minify
 
-Hexo-minify 是一款 hexo 压缩插件，它可以压缩 HTML、CSS、JS
+Hexo-minify 是一款 Hexo 压缩插件，它可以压缩 HTML、CSS、JS
 
 ## 安装
 
@@ -15,38 +15,59 @@ npm install hexo-minify --save
 
 ## 说明
 
-| 类型    | 属性         | 默认值     | 描述         |
-| ------- | ------------ | ---------- | ------------ |
-| Boolean | js.enable    | true       | 是否开启     |
-| Boolean | css.enable   | true       | 是否开启     |
-| Boolean | html.enable  | true       | 是否开启     |
-| Boolean | js.options   | {}         | [更多配置](https://github.com/mishoo/UglifyJS) |
-| Boolean | css.options  | {}         | [更多配置](https://github.com/clean-css/clean-css#compatibility-modes) |
-| Boolean | html.options | 看下方表格 | [更多配置](https://github.com/kangax/html-minifier#options-quick-reference) |
+> 如需修改，可在Hexo配置文件内编辑覆盖
+> 如果仅安装插件，并未填写相关配置，则使用默认配置信息
 
-<details>
-<summary><code>html.options</code>默认值 - 点击展开</summary>
-
-| 类型    | 属性                  | 默认值 | 描述           |
-| ------- | --------------------- | ------ | -------------- |
-| Boolean | minifyJS              | true   | js 压缩        |
-| Boolean | minifyCSS             | true   | css 压缩       |
-| Boolean | removeComments        | true   | 删除注释       |
-| Boolean | collapseWhitespace    | true   | 删除多余空白处 |
-| Boolean | removeAttributeQuotes | true   | 删除属性引号   |
-
-</details>
-
-如果你想关闭某个功能，可以在根目录的`_config.yml`配置
-
+默认配置信息
 ```yml
+## Hexo-minify Default Config Options
 minify:
   js:
     enable: true
+    ## 详细配置: https://github.com/mishoo/UglifyJS
+    options:
   css:
     enable: true
+    ## 详细配置: https://github.com/clean-css/clean-css#compatibility-modes
+    options:
   html:
     enable: true
+    ## 详细配置: https://github.com/kangax/html-minifier#options-quick-reference
+    options: 
+      minifyJS: true # Compressed JavaScript
+      minifyCSS: true # CSS Compressed
+      removeComments: true # Remove the comments
+      collapseWhitespace: true # Delete any extra space
+      removeAttributeQuotes: true # Delete attribute quotes
+  # + 1.2.0 版本新增
+  postcss:
+    enable: true
+    ## 详细配置: https://github.com/postcss/autoprefixer#options
+    ## 注意Hexo-minify仅内置了autoprefixer插件
+    ## 受Hexo限制，目前无法实现自定义postcss插件
+    options: 
+      # JavaScript 数组写法
+      # overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
+      # YAML 数组写法
+      overrideBrowserslist: 
+        - '> 1%' # 特殊符号需要使用'或"
+        - last 2 versions
+        - not dead
+  babel: 
+    enable: true
+    ## 详细配置: https://github.com/babel/babel-preset-env#options
+    ## 注意Hexo-minify仅内置了@babel/preset-env插件
+    ## 受Hexo限制，目前无法实现自定义babel插件
+    options:
+      # 此配置稍微复炸，建议使用 JavaScript 数组写法
+      presets: [
+        [
+          '@babel/preset-env',
+          { 
+            targets: { browsers: ['> 1%', 'last 2 versions', 'not dead'] }
+          }
+        ]
+      ]
 ```
 
 > 适用于`1.1.0`之前的版本
@@ -60,6 +81,6 @@ minify:
 
 ## Hexo 相关
 
-[Hexo-SEO-AutoPush](https://github.com/lete114/hexo-seo-autopush)
+[Hexo-theme-MengD](https://github.com/lete114/hexo-theme-MengD)
 
-[hexo-theme-MengD](https://github.com/lete114/hexo-theme-MengD)
+[Hexo-SEO-AutoPush](https://github.com/lete114/hexo-seo-autopush)

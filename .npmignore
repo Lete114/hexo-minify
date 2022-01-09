@@ -1,0 +1,6 @@
+package-lock.json
+.gitignore
+.prettierrc.yml
+README_EN.md
+test/
+node_modules/

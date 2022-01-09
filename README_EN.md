@@ -13,40 +13,61 @@ Hexo-minify is a Hexo compression plug-in that compresses HTML, CSS, and JS
 npm install hexo-minify --save
 ```
 
-## Description
+## 说明
 
-| Type    | Property     | Default                 | Description                                                                           |
-| ------- | ------------ | ----------------------- | ------------------------------------------------------------------------------------- |
-| Boolean | js.enable    | true                    | Enable                                                                                |
-| Boolean | css.enable   | true                    | Enable                                                                                |
-| Boolean | html.enable  | true                    | Enable                                                                                |
-| Boolean | js.options   | {}                      | [More configuration](https://github.com/mishoo/UglifyJS)                              |
-| Boolean | css.options  | {}                      | [More configuration](https://github.com/clean-css/clean-css#compatibility-modes)      |
-| Boolean | html.options | Look at the table below | [More configuration](https://github.com/kangax/html-minifier#options-quick-reference) |
+> If you need to change it, you can edit the override in the Hexo configuration file
+> If you only install the plugin and do not fill in the relevant configuration, the default configuration information will be used
 
-<details>
-<summary><code>html.options</code>Description - Tap to open</summary>
-
-| Type    | Property              | Default | Description                                                            |
-| ------- | --------------------- | ------- | ---------------------------------------------------------------------- |
-| Boolean | minifyJS              | true    | Minify JavaScript in script elements and event attributes              |
-| Boolean | minifyCSS             | true    | Minify CSS in style elements and style attributes                      |
-| Boolean | removeComments        | true    | Strip HTML comments                                                    |
-| Boolean | collapseWhitespace    | true    | Collapse white space that contributes to text nodes in a document tree |
-| Boolean | removeAttributeQuotes | true    | Remove quotes around attributes when possible                          |
-
-</details>
-
-If you want to disable a feature, you can configure it in the root directory `_config.yml`
-
+Default configuration information
 ```yml
+## Hexo-minify Default Config Options
 minify:
   js:
     enable: true
+    ## Detailed configuration: https://github.com/mishoo/UglifyJS
+    options:
   css:
     enable: true
+    ## Detailed configuration: https://github.com/clean-css/clean-css#compatibility-modes
+    options:
   html:
     enable: true
+    ## Detailed configuration: https://github.com/kangax/html-minifier#options-quick-reference
+    options: 
+      minifyJS: true # Compressed JavaScript
+      minifyCSS: true # CSS Compressed
+      removeComments: true # Remove the comments
+      collapseWhitespace: true # Delete any extra space
+      removeAttributeQuotes: true # Delete attribute quotes
+  # + 1.2.0 Versions Added
+  postcss:
+    enable: true
+    ## Detailed configuration: https://github.com/postcss/autoprefixer#options
+    ## Note that Hexo-minify only has the autoprefixer plugin built in
+    ## Constrained by Hexo, custom Postcss plug-ins are currently not available
+    options: 
+      # JavaScript Array writing method
+      # overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
+      # YAML Array writing method
+      overrideBrowserslist: 
+        - '> 1%' # Special symbols require the use of ' or "
+        - last 2 versions
+        - not dead
+  babel: 
+    enable: true
+    ## Detailed configuration: https://github.com/babel/babel-preset-env#options
+    ## Note that Hexo-minify only has the @babel/preset-env plugin built in
+    ## Constrained by Hexo, custom Babel plug-ins are currently not available
+    options:
+      # This configuration is complex It is recommended to use JavaScript Array writing method
+      presets: [
+        [
+          '@babel/preset-env',
+          { 
+            targets: { browsers: ['> 1%', 'last 2 versions', 'not dead'] }
+          }
+        ]
+      ]
 ```
 
 > Applies to versions prior to `1.1.0`
@@ -60,6 +81,6 @@ minify:
 
 ## Hexo Related
 
-[Hexo-SEO-AutoPush](https://github.com/lete114/hexo-seo-autopush)
-
 [hexo-theme-MengD](https://github.com/lete114/hexo-theme-MengD)
+
+[Hexo-SEO-AutoPush](https://github.com/lete114/hexo-seo-autopush)
