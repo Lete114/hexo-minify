@@ -1,9 +1,9 @@
 'use strict'
 
-const should = require('chai').should()
-var UglifyJS = require('uglify-js')
-var CleanCSS = require('clean-css')
-var minifierHTML = require('html-minifier').minify
+const assert = require('assert')
+const UglifyJS = require('uglify-js')
+const CleanCSS = require('clean-css')
+const minifierHTML = require('html-minifier').minify
 
 describe('hexo-minify', () => {
   const Hexo = require('hexo')
@@ -16,11 +16,22 @@ describe('hexo-minify', () => {
     minify: {
       js: { enable: true, options: {} },
       css: { enable: true, options: {} },
-      html: { enable: true, options: {} }
+      html: { enable: true, options: {} },
+      postcss: { enable: true, options: {} },
+      babel: { enable: true, options: {} }
     }
   }
 
-  hexo.config = JSON.parse(JSON.stringify(Object.assign(hexo.config, defaultConfig)))
+  hexo.config = JSON.parse(
+    JSON.stringify(Object.assign(hexo.config, defaultConfig))
+  )
+
+  const DeepClone = function (obj) {
+    const json = JSON.stringify(obj)
+    return JSON.parse(json)
+  }
+
+  const hexoCondig = DeepClone(hexo.config)
 
   describe('minifyJS', () => {
     const es5 = `
@@ -50,18 +61,21 @@ describe('hexo-minify', () => {
     console.log(obj.calc(1,2));`
 
     it('es5 - minify js', async () => {
+      hexo.config = DeepClone(hexoCondig)
       const result = await minifyJS(es5, { path: 'source/test.js' })
 
-      result.should.eql(UglifyJS.minify(es5).code)
+      assert.equal(result, UglifyJS.minify(es5).code)
     })
 
     it('es6 - minify js', async () => {
+      hexo.config = DeepClone(hexoCondig)
       const result = await minifyJS(es6, { path: 'source/test.js' })
 
-      result.should.eql(UglifyJS.minify(es6).code)
+      assert.equal(result, UglifyJS.minify(es6).code)
     })
 
     it('options - minify js', async () => {
+      hexo.config = DeepClone(hexoCondig)
       // toplevel: Remove unused code
 
       hexo.config.minify.js.options.toplevel = true
@@ -71,17 +85,16 @@ describe('hexo-minify', () => {
       const result = await minifyJS(es6, { path: 'source/test.js' })
       // result Output: console.log(3);
 
-      result.should.eql(UglifyJS.minify(es6, options).code)
-
-      delete hexo.config.minify.js.options.toplevel
+      assert.equal(result, UglifyJS.minify(es6, options).code)
     })
 
     it('after_render:js', async () => {
+      hexo.config = DeepClone(hexoCondig)
       hexo.extend.filter.register('after_render:js', minifyJS)
 
       const result = await hexo.extend.filter.exec('after_render:js', es5)
 
-      result.should.eql(UglifyJS.minify(es5).code)
+      assert.equal(result, UglifyJS.minify(es5).code)
     })
   })
 
@@ -102,12 +115,14 @@ describe('hexo-minify', () => {
     }`
 
     it('minify css', async () => {
+      hexo.config = DeepClone(hexoCondig)
       const result = await minifyCSS(body, { path: 'source/test.css' })
 
-      result.should.eql(new CleanCSS({}).minify(body).styles)
+      assert.equal(result, new CleanCSS({}).minify(body).styles)
     })
 
     it('options - minify css', async () => {
+      hexo.config = DeepClone(hexoCondig)
       // keep-breaks: formats output the default way but adds line breaks for improved readability
 
       hexo.config.minify.css.options.format = 'keep-breaks'
@@ -125,28 +140,71 @@ describe('hexo-minify', () => {
 
        */
 
-      result.should.eql(new CleanCSS(options).minify(body).styles)
+      assert.equal(result, new CleanCSS(options).minify(body).styles)
 
       delete hexo.config.minify.css.options.format
     })
 
     it('after_render:css', async () => {
+      hexo.config = DeepClone(hexoCondig)
       hexo.extend.filter.register('after_render:css', minifyCSS)
 
       const result = await hexo.extend.filter.exec('after_render:css', body)
 
-      result.should.eql(new CleanCSS({}).minify(body).styles)
+      assert.equal(result, new CleanCSS({}).minify(body).styles)
     })
   })
-  
+
   describe('minifyHTML', () => {
     const html = `
     <div class="framework-info">
+      <style>
+        body{
+          transform: rotateY(45deg);
+          display: flex;
+        }
+
+        a {
+          transition: transform 1s;
+          transform: rotateX(45deg);
+        }
+        b {
+          transform: translateX(45deg);
+          transform-origin: 0 0;
+        }
+        em {
+          transform: rotateZ(45deg);
+        }
+        @keyframes anim {
+          from {
+            transform: rotate(90deg);
+          }
+        }
+      </style>
       <span>框架 </span>
       <a href="https://hexo.io" target="_blank">Hexo</a>
       <span class="footer-separator">|</span>
       <span>主题 </span>
       <a href="https://github.com/lete114/hexo-theme-MengD" target="_blank">MengD.(萌典)</a>
+      <script>
+
+        // test1
+        const arr1 = [1,2,3]
+        function run(){
+          const arr2 = [1,6,8,9]
+          arr1.push(100)
+          arr2.push(10)
+          return [...arr1,...arr2]
+        }
+        const result = run().map((i)=>i+1)
+        console.log(result)
+
+        // test2
+        const obj = {name:'Lete'}
+        console.log(obj?.name)
+        console.log(obj.age||18)
+
+      </script>
     </div>`
 
     const options = {
@@ -158,11 +216,70 @@ describe('hexo-minify', () => {
     }
 
     it('minify html', async () => {
+      hexo.config = DeepClone(hexoCondig)
       hexo.config.minify.html.options = options
 
       const result = await minifyHTML(html, { path: 'source/test.html' })
 
-      result.should.eql(minifierHTML(html, options))
+      assert.equal(result, minifierHTML(html, options))
+    })
+
+    it('postcss - autoprefixer [not dead]', async () => {
+      hexo.config = DeepClone(hexoCondig)
+      const postcssOptions = {
+        overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
+      }
+
+      hexo.config.minify.html.options = options
+      hexo.config.minify.postcss.options = postcssOptions
+
+      const result = await minifyHTML(html, { path: 'source/test.html' })
+
+      const style = `<style>body{transform:rotateY(45deg);display:flex}a{transition:transform 1s;transform:rotateX(45deg)}b{transform:translateX(45deg);transform-origin:0 0}em{transform:rotateZ(45deg)}@-webkit-keyframes anim{from{transform:rotate(90deg)}}@keyframes anim{from{transform:rotate(90deg)}}</style>`
+      const isOK = result.indexOf(style) !== -1
+
+      assert.ok(isOK)
+    })
+
+    it('postcss - autoprefixer [IE 6]', async () => {
+      hexo.config = DeepClone(hexoCondig)
+      const postcssOptions = {
+        overrideBrowserslist: ['> 1%', 'last 2 versions', 'IE 6']
+      }
+
+      hexo.config.minify.html.options = options
+      hexo.config.minify.postcss.options = postcssOptions
+
+      const result = await minifyHTML(html, { path: 'source/test.html' })
+
+      const style = `<style>body{-webkit-transform:rotateY(45deg);transform:rotateY(45deg);display:-webkit-box;display:-ms-flexbox;display:flex}a{-webkit-transition:-webkit-transform 1s;transition:-webkit-transform 1s;transition:transform 1s;transition:transform 1s,-webkit-transform 1s;-webkit-transform:rotateX(45deg);transform:rotateX(45deg)}b{-webkit-transform:translateX(45deg);transform:translateX(45deg);-webkit-transform-origin:0 0;transform-origin:0 0}em{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}@-webkit-keyframes anim{from{-webkit-transform:rotate(90deg);transform:rotate(90deg)}}@keyframes anim{from{-webkit-transform:rotate(90deg);transform:rotate(90deg)}}</style>`
+      const isOK = result.indexOf(style) !== -1
+
+      assert.ok(isOK)
+    })
+
+    it('babel - es6 to es5', async () => {
+      hexo.config = DeepClone(hexoCondig)
+
+      const babelConfig = {
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: { browsers: ['> 1%', 'last 2 versions', 'not dead'] }
+            }
+          ]
+        ]
+      }
+
+      hexo.config.minify.html.options = options
+      hexo.config.minify.babel.options = babelConfig
+
+      const result = await minifyHTML(html, { path: 'source/test.html' })
+
+      const js = `<script>"use strict";var arr1=[1,2,3];function run(){var r=[1,6,8,9];return arr1.push(100),r.push(10),[].concat(arr1,r)}var result=run().map(function(r){return r+1});console.log(result);var obj={name:"Lete"};console.log(null==obj?void 0:obj.name),console.log(obj.age||18);</script>`
+      const isOk = result.indexOf(js) !== -1
+      assert.ok(isOk)
     })
   })
 })
