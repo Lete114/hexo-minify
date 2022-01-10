@@ -20,7 +20,7 @@
     "JS"
   ],
   "author": "Lete114",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/lete114/hexo-minify/issues"
   },
@@ -35,10 +35,6 @@
     "uglify-js": "^3.12.4"
   },
   "devDependencies": {
-    "chai": "^4.3.4",
-    "chai-as-promised": "^7.1.1",
-    "eslint": "^8.6.0",
-    "eslint-config-hexo": "^5.0.0",
     "hexo": "^6.0.0",
     "mocha": "^9.1.3"
   }
