@@ -18,7 +18,6 @@ describe('hexo-minify', () => {
       css: { enable: true, options: {} },
       html: { enable: true, options: {} },
       postcss: { enable: true, options: {} },
-      babel: { enable: true, options: {} }
     }
   }
 
@@ -258,28 +257,6 @@ describe('hexo-minify', () => {
       assert.ok(isOK)
     })
 
-    it('babel - es6 to es5', async () => {
-      hexo.config = DeepClone(hexoCondig)
-
-      const babelConfig = {
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              targets: { browsers: ['> 1%', 'last 2 versions', 'not dead'] }
-            }
-          ]
-        ]
-      }
-
-      hexo.config.minify.html.options = options
-      hexo.config.minify.babel.options = babelConfig
-
-      const result = await minifyHTML(html, { path: 'source/test.html' })
-
-      const js = `<script>"use strict";var arr1=[1,2,3];function run(){var r=[1,6,8,9];return arr1.push(100),r.push(10),[].concat(arr1,r)}var result=run().map(function(r){return r+1});console.log(result);var obj={name:"Lete"};console.log(null==obj?void 0:obj.name),console.log(obj.age||18);</script>`
-      const isOk = result.indexOf(js) !== -1
-      assert.ok(isOk)
-    })
+    
   })
 })

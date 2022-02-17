@@ -53,21 +53,6 @@ minify:
         - '> 1%' # 特殊符号需要使用'或"
         - last 2 versions
         - not dead
-  babel: 
-    enable: true
-    ## 详细配置: https://github.com/babel/babel-preset-env#options
-    ## 注意Hexo-minify仅内置了@babel/preset-env插件
-    ## 受Hexo限制，目前无法实现自定义babel插件
-    options:
-      # 此配置稍微复炸，建议使用 JavaScript 数组写法
-      presets: [
-        [
-          '@babel/preset-env',
-          { 
-            targets: { browsers: ['> 1%', 'last 2 versions', 'not dead'] }
-          }
-        ]
-      ]
 ```
 
 > 适用于`1.1.0`之前的版本

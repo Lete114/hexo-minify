@@ -53,21 +53,6 @@ minify:
         - '> 1%' # Special symbols require the use of ' or "
         - last 2 versions
         - not dead
-  babel: 
-    enable: true
-    ## Detailed configuration: https://github.com/babel/babel-preset-env#options
-    ## Note that Hexo-minify only has the @babel/preset-env plugin built in
-    ## Constrained by Hexo, custom Babel plug-ins are currently not available
-    options:
-      # This configuration is complex It is recommended to use JavaScript Array writing method
-      presets: [
-        [
-          '@babel/preset-env',
-          { 
-            targets: { browsers: ['> 1%', 'last 2 versions', 'not dead'] }
-          }
-        ]
-      ]
 ```
 
 > Applies to versions prior to `1.1.0`
