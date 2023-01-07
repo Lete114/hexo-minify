@@ -22,6 +22,7 @@ Default configuration information
 ```yml
 ## Hexo-minify Default Config Options
 minify:
+  preview: false ## Whether to compress during local preview
   js:
     enable: true
     ## Detailed configuration: https://github.com/mishoo/UglifyJS

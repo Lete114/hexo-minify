@@ -1,12 +1,15 @@
-'use strict'
-
 /**
  * hexo-minify
  * author: Lete114
  * version: 1.2.0
  */
 
+'use strict'
+
+const { minifyJS, minifyCSS, minifyHTML } = require('./lib/filter')
+
 const defaultConfig = {
+  preview: false,
   js: { enable: true, options: {} },
   css: { enable: true, options: {} },
   html: {
@@ -29,8 +32,12 @@ const defaultConfig = {
 
 hexo.config.minify = Object.assign(defaultConfig, hexo.config.minify)
 
-hexo.extend.filter.register('after_render:js', require('./lib/filter').minifyJS)
+const isMinify = hexo.config.minify.preview || ['g', 'generate'].includes(hexo.env.cmd)
 
-hexo.extend.filter.register('after_render:css', require('./lib/filter').minifyCSS)
+if (isMinify) {
+  hexo.extend.filter.register('after_render:js', minifyJS)
 
-hexo.extend.filter.register('after_render:html', require('./lib/filter').minifyHTML)
+  hexo.extend.filter.register('after_render:css', minifyCSS)
+
+  hexo.extend.filter.register('after_render:html', minifyHTML)
+}
