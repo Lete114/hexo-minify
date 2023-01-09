@@ -5,7 +5,7 @@
 
 ## Hexo-minify
 
-Hexo-minify is a Hexo compression plug-in that compresses HTML, CSS, and JS
+Hexo-minify is a Hexo compression plug-in that compresses HTML, CSS, JS, and Image
 
 ## Install
 
@@ -19,6 +19,7 @@ npm install hexo-minify --save
 > If you only install the plugin and do not fill in the relevant configuration, the default configuration information will be used
 
 Default configuration information
+
 ```yml
 ## Hexo-minify Default Config Options
 minify:
@@ -34,23 +35,44 @@ minify:
   html:
     enable: true
     ## Detailed configuration: https://github.com/kangax/html-minifier#options-quick-reference
-    options: 
+    options:
       minifyJS: true # Compressed JavaScript
       minifyCSS: true # CSS Compressed
       removeComments: true # Remove the comments
       collapseWhitespace: true # Delete any extra space
       removeAttributeQuotes: true # Delete attribute quotes
-  # + 1.2.0 Versions Added
+  image:
+    enable: true
+    svg:
+      enable: true
+      ## Detailed configuration: https://github.com/imagemin/imagemin-svgo#imageminsvgooptionsbuffer
+      options:
+    jpg:
+      enable: true
+      ## Detailed configuration: https://github.com/imagemin/imagemin-jpegtran#options
+      options:
+    png:
+      enable: true
+      ## Detailed configuration: https://github.com/imagemin/imagemin-pngquant#options
+      options:
+    gif:
+      enable: true
+      ## Detailed configuration: https://www.npmjs.com/package/imagemin-gifsicle#options
+      options:
+    webp:
+      enable: true
+      ## Detailed configuration: https://github.com/imagemin/imagemin-webp#options
+      options:
   postcss:
     enable: true
     ## Detailed configuration: https://github.com/postcss/autoprefixer#options
     ## Note that Hexo-minify only has the autoprefixer plugin built in
     ## Constrained by Hexo, custom Postcss plug-ins are currently not available
-    options: 
+    options:
       # JavaScript Array writing method
       # overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
       # YAML Array writing method
-      overrideBrowserslist: 
+      overrideBrowserslist:
         - '> 1%' # Special symbols require the use of ' or "
         - last 2 versions
         - not dead

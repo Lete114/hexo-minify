@@ -29,6 +29,12 @@
     "autoprefixer": "^10.4.2",
     "clean-css": "^4.2.3",
     "html-minifier": "^4.0.0",
+    "imagemin": "^7.0.1",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-pngquant": "^7.0.0",
+    "imagemin-svgo": "^9.0.0",
+    "imagemin-webp": "^6.0.0",
     "postcss": "^8.4.5",
     "uglify-js": "^3.12.4"
   },
