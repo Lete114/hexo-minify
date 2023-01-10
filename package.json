@@ -4,7 +4,7 @@
   "description": "Hexo resources compress HTML,CSS,JS",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha test/index.js"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,6 @@
   },
   "devDependencies": {
     "hexo": "^6.0.0",
-    "mocha": "^9.1.3"
+    "vitest": "^0.27.0"
   }
 }
