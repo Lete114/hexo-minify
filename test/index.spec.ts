@@ -1,10 +1,6 @@
 'use strict'
 
-const assert = require('assert')
-const SWC = require('@swc/core')
-const minifierHTML = require('html-minifier').minify
-
-const { esbuildMinifyCSS } = require('../lib/utils')
+import { describe, expect, it } from 'vitest'
 
 describe('hexo-minify', () => {
   const Hexo = require('hexo')
@@ -64,14 +60,14 @@ describe('hexo-minify', () => {
       hexo.config = deepClone(hexoConfig)
       const result = await minifyJS(es5, { path: 'source/test.js' })
 
-      assert.equal(result, SWC.minifySync(es5).code)
+      expect(result).toMatchInlineSnapshot('"var obj={name:\\"lisi\\",age:18,calc:function(n,c){return n+c},merge:function(n,c){return n+c}};console.log(obj.calc(1,2));"')
     })
 
     it('es6 - minify js', async () => {
       hexo.config = deepClone(hexoConfig)
       const result = await minifyJS(es6, { path: 'source/test.js' })
 
-      assert.equal(result, SWC.minifySync(es6).code)
+      expect(result).toMatchInlineSnapshot('"const obj={name:\\"lisi\\",age:18,calc:(c,o)=>c+o,merge:(c,o)=>c+o};console.log(obj.calc(1,2));"')
     })
 
     it('options - minify js', async () => {
@@ -85,7 +81,7 @@ describe('hexo-minify', () => {
       const result = await minifyJS(es6, { path: 'source/test.js' })
       // result Output: console.log(3);
 
-      assert.equal(result, SWC.minifySync(es6, options).code)
+      expect(result).toMatchInlineSnapshot('"const obj={name:\\"lisi\\",age:18,calc:(c,o)=>c+o,merge:(c,o)=>c+o};console.log(obj.calc(1,2));"')
     })
 
     it('after_render:js', async () => {
@@ -94,7 +90,7 @@ describe('hexo-minify', () => {
 
       const result = await hexo.extend.filter.exec('after_render:js', es5)
 
-      assert.equal(result, SWC.minifySync(es5).code)
+      expect(result).toMatchInlineSnapshot('"var obj={name:\\"lisi\\",age:18,calc:function(n,c){return n+c},merge:function(n,c){return n+c}};console.log(obj.calc(1,2));"')
     })
   })
 
@@ -118,13 +114,14 @@ describe('hexo-minify', () => {
       hexo.config = deepClone(hexoConfig)
       const result = await minifyCSS(body, { path: 'source/test.css' })
 
-      assert.equal(result, esbuildMinifyCSS(body))
+      expect(result).toMatchInlineSnapshot(`
+        "body a{text-decoration:none;color:#00c4b6;transition:all .5s}h1{color:red;font-size:1px}a{color:red;font-size:2px}
+        "
+      `)
     })
 
     it('options - minify css', async () => {
       hexo.config = deepClone(hexoConfig)
-
-      const options = hexo.config.minify.css.options
 
       const result = await minifyCSS(body)
 
@@ -137,7 +134,10 @@ describe('hexo-minify', () => {
 
        */
 
-      assert.equal(result, esbuildMinifyCSS(body, options))
+      expect(result).toMatchInlineSnapshot(`
+        "body a{text-decoration:none;color:#00c4b6;transition:all .5s}h1{color:red;font-size:1px}a{color:red;font-size:2px}
+        "
+      `)
 
       delete hexo.config.minify.css.options.format
     })
@@ -148,7 +148,10 @@ describe('hexo-minify', () => {
 
       const result = await hexo.extend.filter.exec('after_render:css', body)
 
-      assert.equal(result, esbuildMinifyCSS(body))
+      expect(result).toMatchInlineSnapshot(`
+        "body a{text-decoration:none;color:#00c4b6;transition:all .5s}h1{color:red;font-size:1px}a{color:red;font-size:2px}
+        "
+      `)
     })
   })
 
@@ -218,7 +221,7 @@ describe('hexo-minify', () => {
 
       const result = await minifyHTML(html, { path: 'source/test.html' })
 
-      assert.equal(result, minifierHTML(html, options))
+      expect(result).toMatchInlineSnapshot('"<div class=framework-info><style>body{transform:rotateY(45deg);display:flex}a{transition:transform 1s;transform:rotateX(45deg)}b{transform:translate(45deg);transform-origin:0 0}em{transform:rotate(45deg)}@-webkit-keyframes anim{0%{transform:rotate(90deg)}}@keyframes anim{0%{transform:rotate(90deg)}}</style><span>框架 </span><a href=https://hexo.io target=_blank>Hexo</a> <span class=footer-separator>|</span> <span>主题 </span><a href=https://github.com/lete114/hexo-theme-MengD target=_blank>MengD.(萌典)</a><script>const arr1=[1,2,3];function run(){const o=[1,6,8,9];return arr1.push(100),o.push(10),[...arr1,...o]}const result=run().map(o=>o+1);console.log(result);const obj={name:\\"Lete\\"};console.log(obj?.name),console.log(obj.age||18)</script></div>"')
     })
 
     it('postcss - autoprefixer [not dead]', async () => {
@@ -235,7 +238,7 @@ describe('hexo-minify', () => {
       const style = `<style>body{transform:rotateY(45deg);display:flex}a{transition:transform 1s;transform:rotateX(45deg)}b{transform:translateX(45deg);transform-origin:0 0}em{transform:rotateZ(45deg)}@-webkit-keyframes anim{from{transform:rotate(90deg)}}@keyframes anim{from{transform:rotate(90deg)}}</style>`
       const isOK = result.indexOf(style) !== -1
 
-      assert.ok(isOK)
+      expect(isOK).toEqual(true)
     })
 
     it('postcss - autoprefixer [IE 6]', async () => {
@@ -252,7 +255,7 @@ describe('hexo-minify', () => {
       const style = `<style>body{-webkit-transform:rotateY(45deg);transform:rotateY(45deg);display:-webkit-box;display:-ms-flexbox;display:flex}a{-webkit-transition:-webkit-transform 1s;transition:-webkit-transform 1s;transition:transform 1s;transition:transform 1s,-webkit-transform 1s;-webkit-transform:rotateX(45deg);transform:rotateX(45deg)}b{-webkit-transform:translateX(45deg);transform:translateX(45deg);-webkit-transform-origin:0 0;transform-origin:0 0}em{-webkit-transform:rotateZ(45deg);transform:rotateZ(45deg)}@-webkit-keyframes anim{from{-webkit-transform:rotate(90deg);transform:rotate(90deg)}}@keyframes anim{from{-webkit-transform:rotate(90deg);transform:rotate(90deg)}}</style>`
       const isOK = result.indexOf(style) !== -1
 
-      assert.ok(isOK)
+      expect(isOK).toEqual(true)
     })
 
     
