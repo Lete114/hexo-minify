@@ -26,11 +26,11 @@ minify:
   preview: false ## Whether to compress during local preview
   js:
     enable: true
-    ## Detailed configuration: https://github.com/mishoo/UglifyJS
+    ## Detailed configuration: https://swc.rs/docs/configuration/minification
     options:
   css:
     enable: true
-    ## Detailed configuration: https://github.com/clean-css/clean-css#compatibility-modes
+    ## Detailed configuration: https://esbuild.github.io/api/#minify
     options:
   html:
     enable: true
