@@ -26,11 +26,11 @@ minify:
   preview: false ## 本地预览时是否压缩
   js:
     enable: true
-    ## 详细配置: https://github.com/mishoo/UglifyJS
+    ## 详细配置: https://swc.rs/docs/configuration/minification
     options:
   css:
     enable: true
-    ## 详细配置: https://github.com/clean-css/clean-css#compatibility-modes
+    ## 详细配置: https://esbuild.github.io/api/#minify
     options:
   html:
     enable: true
