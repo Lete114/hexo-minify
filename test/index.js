@@ -1,9 +1,10 @@
 'use strict'
 
 const assert = require('assert')
-const UglifyJS = require('uglify-js')
-const CleanCSS = require('clean-css')
+const SWC = require('@swc/core')
 const minifierHTML = require('html-minifier').minify
+
+const { esbuildMinifyCSS } = require('../lib/utils')
 
 describe('hexo-minify', () => {
   const Hexo = require('hexo')
@@ -25,12 +26,12 @@ describe('hexo-minify', () => {
     JSON.stringify(Object.assign(hexo.config, defaultConfig))
   )
 
-  const DeepClone = function (obj) {
+  const deepClone = function (obj) {
     const json = JSON.stringify(obj)
     return JSON.parse(json)
   }
 
-  const hexoCondig = DeepClone(hexo.config)
+  const hexoConfig = deepClone(hexo.config)
 
   describe('minifyJS', () => {
     const es5 = `
@@ -60,21 +61,21 @@ describe('hexo-minify', () => {
     console.log(obj.calc(1,2));`
 
     it('es5 - minify js', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       const result = await minifyJS(es5, { path: 'source/test.js' })
 
-      assert.equal(result, UglifyJS.minify(es5).code)
+      assert.equal(result, SWC.minifySync(es5).code)
     })
 
     it('es6 - minify js', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       const result = await minifyJS(es6, { path: 'source/test.js' })
 
-      assert.equal(result, UglifyJS.minify(es6).code)
+      assert.equal(result, SWC.minifySync(es6).code)
     })
 
     it('options - minify js', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       // toplevel: Remove unused code
 
       hexo.config.minify.js.options.toplevel = true
@@ -84,16 +85,16 @@ describe('hexo-minify', () => {
       const result = await minifyJS(es6, { path: 'source/test.js' })
       // result Output: console.log(3);
 
-      assert.equal(result, UglifyJS.minify(es6, options).code)
+      assert.equal(result, SWC.minifySync(es6, options).code)
     })
 
     it('after_render:js', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       hexo.extend.filter.register('after_render:js', minifyJS)
 
       const result = await hexo.extend.filter.exec('after_render:js', es5)
 
-      assert.equal(result, UglifyJS.minify(es5).code)
+      assert.equal(result, SWC.minifySync(es5).code)
     })
   })
 
@@ -114,21 +115,18 @@ describe('hexo-minify', () => {
     }`
 
     it('minify css', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       const result = await minifyCSS(body, { path: 'source/test.css' })
 
-      assert.equal(result, new CleanCSS({}).minify(body).styles)
+      assert.equal(result, esbuildMinifyCSS(body))
     })
 
     it('options - minify css', async () => {
-      hexo.config = DeepClone(hexoCondig)
-      // keep-breaks: formats output the default way but adds line breaks for improved readability
-
-      hexo.config.minify.css.options.format = 'keep-breaks'
+      hexo.config = deepClone(hexoConfig)
 
       const options = hexo.config.minify.css.options
 
-      const result = await minifyCSS(body, { path: 'source/test.css' })
+      const result = await minifyCSS(body)
 
       /*
       result Output:
@@ -139,18 +137,18 @@ describe('hexo-minify', () => {
 
        */
 
-      assert.equal(result, new CleanCSS(options).minify(body).styles)
+      assert.equal(result, esbuildMinifyCSS(body, options))
 
       delete hexo.config.minify.css.options.format
     })
 
     it('after_render:css', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       hexo.extend.filter.register('after_render:css', minifyCSS)
 
       const result = await hexo.extend.filter.exec('after_render:css', body)
 
-      assert.equal(result, new CleanCSS({}).minify(body).styles)
+      assert.equal(result, esbuildMinifyCSS(body))
     })
   })
 
@@ -215,7 +213,7 @@ describe('hexo-minify', () => {
     }
 
     it('minify html', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       hexo.config.minify.html.options = options
 
       const result = await minifyHTML(html, { path: 'source/test.html' })
@@ -224,7 +222,7 @@ describe('hexo-minify', () => {
     })
 
     it('postcss - autoprefixer [not dead]', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       const postcssOptions = {
         overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
       }
@@ -241,7 +239,7 @@ describe('hexo-minify', () => {
     })
 
     it('postcss - autoprefixer [IE 6]', async () => {
-      hexo.config = DeepClone(hexoCondig)
+      hexo.config = deepClone(hexoConfig)
       const postcssOptions = {
         overrideBrowserslist: ['> 1%', 'last 2 versions', 'IE 6']
       }
