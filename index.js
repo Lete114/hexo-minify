@@ -1,7 +1,6 @@
 /**
  * hexo-minify
  * author: Lete114
- * version: 1.2.0
  */
 
 'use strict'
