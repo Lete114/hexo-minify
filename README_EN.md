@@ -5,7 +5,7 @@
 
 ## Hexo-minify
 
-Hexo-minify is a Hexo compression plug-in that compresses HTML, CSS, JS, and Image(jpg,png,gif,webp,svg
+Hexo-minify is a Hexo compression plug-in that compresses HTML, CSS, JS, and Image(jpg,png,gif,webp,svg)
 
 ## Install
 

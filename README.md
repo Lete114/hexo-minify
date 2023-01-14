@@ -5,7 +5,7 @@
 
 ## Hexo-minify
 
-Hexo-minify 是一款 Hexo 压缩插件，它可以压缩 HTML、CSS、JS、Image(jpg,png,gif,webp,svg
+Hexo-minify 是一款 Hexo 压缩插件，它可以压缩 HTML、CSS、JS、Image(jpg,png,gif,webp,svg)
 
 ## 安装
 
