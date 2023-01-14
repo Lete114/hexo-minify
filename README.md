@@ -23,6 +23,7 @@ npm install hexo-minify --save
 ## Hexo-minify Default Config Options
 minify:
   preview: false ## 本地预览时是否压缩
+  exclude: ['*.min.*']
   js:
     enable: true
     ## 详细配置: https://github.com/terser/terser#minify-options

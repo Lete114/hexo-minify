@@ -24,6 +24,7 @@ Default configuration information
 ## Hexo-minify Default Config Options
 minify:
   preview: false ## Whether to compress during local preview
+  exclude: ['*.min.*']
   js:
     enable: true
     ## Detailed configuration: https://github.com/terser/terser#minify-options

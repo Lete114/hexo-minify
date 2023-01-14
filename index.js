@@ -9,6 +9,7 @@ const { minifyJS, minifyCSS, minifyHTML, miniImage } = require('./lib/filter')
 
 const defaultConfig = {
   preview: false,
+  exclude: ['*.min.*'],
   js: { enable: true, options: {} },
   css: { enable: true, options: {} },
   html: {
