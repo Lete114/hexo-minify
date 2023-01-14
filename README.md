@@ -5,7 +5,7 @@
 
 ## Hexo-minify
 
-Hexo-minify 是一款 Hexo 压缩插件，它可以压缩 HTML、CSS、JS、Image
+Hexo-minify 是一款 Hexo 压缩插件，它可以压缩 HTML、CSS、JS、Image(jpg,png,gif,webp,svg
 
 ## 安装
 
@@ -17,7 +17,6 @@ npm install hexo-minify --save
 
 > 如需修改，可在 Hexo 配置文件内编辑覆盖
 > 如果仅安装插件，并未填写相关配置，则使用默认配置信息
-
 默认配置信息
 
 ```yml
@@ -26,11 +25,11 @@ minify:
   preview: false ## 本地预览时是否压缩
   js:
     enable: true
-    ## 详细配置: https://swc.rs/docs/configuration/minification
+    ## 详细配置: https://github.com/terser/terser#minify-options
     options:
   css:
     enable: true
-    ## 详细配置: https://esbuild.github.io/api/#minify
+    ## 详细配置: https://github.com/clean-css/clean-css#compatibility-modes
     options:
   html:
     enable: true
@@ -63,32 +62,14 @@ minify:
       enable: true
       ## 详细配置: https://github.com/imagemin/imagemin-webp#options
       options:
-  postcss:
-    enable: true
-    ## 详细配置: https://github.com/postcss/autoprefixer#options
-    ## 注意Hexo-minify仅内置了autoprefixer插件
-    ## 受Hexo限制，目前无法实现自定义postcss插件
-    options:
-      # JavaScript 数组写法
-      # overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
-      # YAML 数组写法
-      overrideBrowserslist:
-        - '> 1%' # 特殊符号需要使用'或"
-        - last 2 versions
-        - not dead
-```
-
-> 适用于`1.1.0`之前的版本
-
-```yml
-minify:
-  js: true
-  css: true
-  html: true
 ```
 
 ## Hexo 相关
 
-[Hexo-theme-MengD](https://github.com/lete114/hexo-theme-MengD)
+[hexo-theme-MengD](https://github.com/lete114/hexo-theme-MengD)
 
-[Hexo-SEO-AutoPush](https://github.com/lete114/hexo-seo-autopush)
+[hexo-seo-autopush](https://github.com/lete114/hexo-seo-autopush)
+
+[hexo-hash](https://github.com/Lete114/Hexo-hash)
+
+[hexo-prefetch](https://github.com/Lete114/Hexo-prefetch)

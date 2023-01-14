@@ -28,12 +28,6 @@ const defaultConfig = {
     png: { enable: true, options: {} },
     gif: { enable: true, options: {} },
     webp: { enable: true, options: {} }
-  },
-  postcss: {
-    enable: true,
-    options: {
-      overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
-    }
   }
 }
 

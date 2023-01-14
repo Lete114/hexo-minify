@@ -1,11 +1,11 @@
 <div align="right">
-  Language: en
+  Language: English
   <a title="Chinese" href="/README.md">中文</a>
 </div>
 
 ## Hexo-minify
 
-Hexo-minify is a Hexo compression plug-in that compresses HTML, CSS, JS, and Image
+Hexo-minify is a Hexo compression plug-in that compresses HTML, CSS, JS, and Image(jpg,png,gif,webp,svg
 
 ## Install
 
@@ -26,11 +26,11 @@ minify:
   preview: false ## Whether to compress during local preview
   js:
     enable: true
-    ## Detailed configuration: https://swc.rs/docs/configuration/minification
+    ## Detailed configuration: https://github.com/terser/terser#minify-options
     options:
   css:
     enable: true
-    ## Detailed configuration: https://esbuild.github.io/api/#minify
+    ## Detailed configuration: https://github.com/clean-css/clean-css#compatibility-modes
     options:
   html:
     enable: true
@@ -63,32 +63,14 @@ minify:
       enable: true
       ## Detailed configuration: https://github.com/imagemin/imagemin-webp#options
       options:
-  postcss:
-    enable: true
-    ## Detailed configuration: https://github.com/postcss/autoprefixer#options
-    ## Note that Hexo-minify only has the autoprefixer plugin built in
-    ## Constrained by Hexo, custom Postcss plug-ins are currently not available
-    options:
-      # JavaScript Array writing method
-      # overrideBrowserslist: ['> 1%', 'last 2 versions', 'not dead']
-      # YAML Array writing method
-      overrideBrowserslist:
-        - '> 1%' # Special symbols require the use of ' or "
-        - last 2 versions
-        - not dead
-```
-
-> Applies to versions prior to `1.1.0`
-
-```yml
-minify:
-  js: true
-  css: true
-  html: true
 ```
 
 ## Hexo Related
 
 [hexo-theme-MengD](https://github.com/lete114/hexo-theme-MengD)
 
-[Hexo-SEO-AutoPush](https://github.com/lete114/hexo-seo-autopush)
+[hexo-seo-autopush](https://github.com/lete114/hexo-seo-autopush)
+
+[hexo-hash](https://github.com/Lete114/Hexo-hash)
+
+[hexo-prefetch](https://github.com/Lete114/Hexo-prefetch)
