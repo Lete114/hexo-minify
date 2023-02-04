@@ -5,7 +5,7 @@
 
 'use strict'
 
-const { minifyJS, minifyCSS, minifyHTML, miniImage } = require('./lib/filter')
+const { minifyJS, minifyCSS, minifyHTML, miniImage, miniFont } = require('./lib/filter')
 
 const defaultConfig = {
   preview: false,
@@ -29,6 +29,10 @@ const defaultConfig = {
     png: { enable: true, options: {} },
     gif: { enable: true, options: {} },
     webp: { enable: true, options: {} }
+  },
+  font: {
+    enable: true,
+    options: {}
   }
 }
 
@@ -44,4 +48,6 @@ if (isMinify) {
   hexo.extend.filter.register('after_render:html', minifyHTML)
 
   hexo.extend.filter.register('before_exit', miniImage)
+
+  hexo.extend.filter.register('before_exit', miniFont)
 }

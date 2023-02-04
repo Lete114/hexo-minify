@@ -5,7 +5,7 @@
 
 ## Hexo-minify
 
-Hexo-minify 是一款 Hexo 压缩插件，它可以压缩 HTML、CSS、JS、Image(jpg,png,gif,webp,svg)
+Hexo-minify 是一款 Hexo 压缩插件，它可以压缩 HTML、CSS、JS、Font、Image(jpg,png,gif,webp,svg)
 
 ## 安装
 
@@ -27,11 +27,11 @@ minify:
   js:
     enable: true
     ## 详细配置: https://github.com/terser/terser#minify-options
-    options:
+    options: {}
   css:
     enable: true
     ## 详细配置: https://github.com/clean-css/clean-css#compatibility-modes
-    options:
+    options: {}
   html:
     enable: true
     ## 详细配置: https://github.com/kangax/html-minifier#options-quick-reference
@@ -46,23 +46,27 @@ minify:
     svg:
       enable: true
       ## 详细配置: https://github.com/imagemin/imagemin-svgo#imageminsvgooptionsbuffer
-      options:
+      options: {}
     jpg:
       enable: true
       ## 详细配置: https://github.com/imagemin/imagemin-jpegtran#options
-      options:
+      options: {}
     png:
       enable: true
       ## 详细配置: https://github.com/imagemin/imagemin-pngquant#options
-      options:
+      options: {}
     gif:
       enable: true
       ## 详细配置: https://www.npmjs.com/package/imagemin-gifsicle#options
-      options:
+      options: {}
     webp:
       enable: true
       ## 详细配置: https://github.com/imagemin/imagemin-webp#options
-      options:
+      options: {}
+  font:
+    enable: true
+    ## 详细配置: https://github.com/Lete114/fontmin-spider#api
+    options: {}
 ```
 
 ## Hexo 相关
