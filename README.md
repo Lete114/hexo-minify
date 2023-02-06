@@ -16,8 +16,8 @@ npm install hexo-minify --save
 ## 说明
 
 > 如需修改，可在 Hexo 配置文件内编辑覆盖
-> 如果仅安装插件，并未填写相关配置，则使用默认配置信息
-默认配置信息
+
+> 如果仅安装插件，并未填写相关配置，则使用以下默认配置信息
 
 ```yml
 ## Hexo-minify Default Config Options

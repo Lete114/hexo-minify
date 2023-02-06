@@ -15,8 +15,9 @@ npm install hexo-minify --save
 
 ## 说明
 
-> If you need to change it, you can edit the override in the Hexo configuration file
-> If you only install the plugin and do not fill in the relevant configuration, the default configuration information will be used
+> If you want to change it, you can edit it in the Hexo configuration file to override it
+
+> If you only install the plugin and do not fill in the relevant configuration, the following default configuration information will be used
 
 Default configuration information
 
