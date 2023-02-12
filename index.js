@@ -31,7 +31,7 @@ const defaultConfig = {
     webp: { enable: true, options: {} }
   },
   font: {
-    enable: true,
+    enable: false,
     options: {}
   }
 }

@@ -66,7 +66,7 @@ minify:
       ## Detailed configuration: https://github.com/imagemin/imagemin-webp#options
       options: {}
   font:
-    enable: true
+    enable: false
     ## Detailed configuration: https://github.com/Lete114/fontmin-spider#api
     options: {}
 ```
