@@ -28,6 +28,10 @@ minify:
   exclude: ['*.min.*']
   js:
     enable: true
+    sourceMap:
+      enable: false ## generate sourceMap
+      ## Insert the sourceMappingURL into the compressed js file, or add the sourceMap manually in the browser developer tools if it is false
+      sourceMappingURL: false  ## //# sourceMappingURL=xxx.js.map
     ## Detailed configuration: https://github.com/terser/terser#minify-options
     options: {}
   css:

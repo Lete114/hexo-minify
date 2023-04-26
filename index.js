@@ -10,7 +10,14 @@ const { minifyJS, minifyCSS, minifyHTML, miniImage, miniFont } = require('./lib/
 const defaultConfig = {
   preview: false,
   exclude: ['*.min.*'],
-  js: { enable: true, options: {} },
+  js: {
+    enable: true,
+    sourceMap: {
+      enable: false,
+      sourceMappingURL: false
+    },
+    options: {}
+  },
   css: { enable: true, options: {} },
   html: {
     enable: true,
