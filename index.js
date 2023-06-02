@@ -1,10 +1,11 @@
 /**
  * hexo-minify
- * author: Lete114
+ * @author Lete114
  */
 
 'use strict'
 
+const merge = require('merge-deep')
 const { minifyJS, minifyCSS, minifyHTML, miniImage, miniFont } = require('./lib/filter')
 
 const defaultConfig = {
@@ -43,7 +44,7 @@ const defaultConfig = {
   }
 }
 
-hexo.config.minify = Object.assign(defaultConfig, hexo.config.minify)
+hexo.config.minify = merge(defaultConfig, hexo.config.minify)
 
 const isMinify = hexo.config.minify.preview || ['g', 'generate'].includes(hexo.env.cmd)
 
