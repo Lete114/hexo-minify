@@ -1,6 +1,6 @@
 {
   "name": "hexo-minify",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Hexo resources compress HTML,CSS,JS",
   "main": "index.js",
   "scripts": {
